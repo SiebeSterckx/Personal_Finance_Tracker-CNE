@@ -1,0 +1,71 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card bg-dark text-white">
+        <div class="card-header">
+          <h1>Piggybank:</h1>
+          <p>Piggybank name: {{ piggybank.name }}</p>
+          <p>Balance: {{ piggybank.balance | currency:'EUR':'symbol-narrow'}}</p>
+
+          <h2>Transaction Overview</h2>
+
+          <div *ngIf="serverError">
+            <div class="alert alert-danger">
+              {{ serverError }}
+            </div>
+          </div>
+
+          <div *ngIf="transactions.length > 0">
+            <table class=" bg-dark">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Amount</th>
+                  <th>Description</th>
+                  <th>Sender</th>
+                  <th>Receiver</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let transaction of transactions">
+                  <td>{{ transaction.name }}</td>
+                  <td>{{ transaction.amount | currency:'EUR':'symbol-narrow'}}</td>
+                  <td>{{ transaction.description }}</td>
+                  <td>{{ transaction.sender }}</td>
+                  <td>{{ transaction.receiver }}</td>
+                  <a class="bg-dark" routerLink="{{'/transaction/delete/' + transaction.id+'/'+piggybankId}}">
+                    <button class="my-2 btn btn-danger">Delete</button>
+                  </a>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="transactions.length === 0">
+            <p>No transactions available.</p>
+          </div>
+
+          <a class="btn btn-primary" routerLink="{{'/../transaction/create/' + piggybankId}}">Add
+            Transaction</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  th {
+    padding: 0.5em 1em;
+  }
+
+  td {
+    border-top: 1px solid #ccc;
+    padding: 0.5em 1em;
+  }
+
+  th:first-child,
+  td:first-child {
+    padding-left: 0;
+  }
+</style>
